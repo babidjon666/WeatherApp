@@ -51,6 +51,7 @@ extension ContentView{
                 Image(systemName: "list.bullet")
                     .bold()
                     .foregroundColor(.white)
+                    .font(.title2)
             })
             
             
@@ -62,7 +63,7 @@ extension ContentView{
             Button(action: {
                 //
             }, label: {
-                Text("•••")
+                Image(systemName: "magnifyingglass")
                     .bold()
                     .foregroundColor(.white)
                     .font(.title2)
