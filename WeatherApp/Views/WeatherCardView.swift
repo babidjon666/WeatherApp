@@ -19,14 +19,17 @@ struct WeatherCardView: View {
     
     var body: some View {
         ZStack{
+            
             VStack{
                 VStack {
                     Text(weatherModel?.city ?? "Loading...") // Название города
                         .font(.title2)
                         .bold()
+                        .foregroundColor(.white)
                     
                     Text(currentDate()) // Дата
                         .font(.subheadline)
+                        .foregroundColor(.white)
                 }
                 .padding()
                 
@@ -34,19 +37,20 @@ struct WeatherCardView: View {
                     .padding()
                     .bold()
                     .font(.largeTitle)
+                    .foregroundColor(.white)
                 
-                Text("Ощущается как \(celsiusToKelvin(weatherModel?.feelsLike ?? 0))° C")
+                Text("Feels like \(celsiusToKelvin(weatherModel?.feelsLike ?? 0))° C")
                     .bold()
+                    .foregroundColor(.white)
                 
                 Map(coordinateRegion: $region)
                     .frame(width: 250, height: 165)
                     .cornerRadius(30)
                     .shadow(radius: 10)
-                
                 Spacer()
             }
             .frame(width: 300, height: 400)
-            .background(Color.white)
+            .background(Color.init(hex: "#7fc5f4"))
             .cornerRadius(30)
             
             Button(action: {
@@ -56,17 +60,18 @@ struct WeatherCardView: View {
                     .padding(.top, 400)
                     .frame(width: 60)
                     .foregroundColor(.white)
-                    .shadow(radius: 10)
+                   // .shadow(radius: 10)
                     .overlay{
                         Image(systemName: "plus")
                             .padding(.top, 400)
                             .font(.title3)
                             .bold()
-                            .foregroundColor(.gray)
+                            .foregroundColor(.black)
                     }
             })
         }
         .padding(20)
+        .shadow(radius: 10)
         .onAppear {
             weatherModel = WeatherParse(city: city)
             region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: weatherModel?.lat ?? 0, longitude: weatherModel?.lon ?? 0), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))

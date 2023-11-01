@@ -9,24 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
         
-    @State var weatherCardArray = [ WeatherCardView(city: "Tyumen"),  WeatherCardView(city: "Moscow"), WeatherCardView(city: "Tokio")]
+    @State var weatherCardArray = [ WeatherCardView(city: "Tyumen") ]
     
-    @State var isSearchViewShow = false
+    @State var isSearchViewShown = false
     
     var body: some View {
         ZStack{
-            Image("background")
+            Color.init(hex: "#7FC5F6").ignoresSafeArea()
+            Image("2")
                 .resizable()
+                .frame(width: 500,height: 250)
                 .ignoresSafeArea()
+                .padding(.top,-380)
             
             VStack {
                 
                 header
                 
                 ScrollView(.horizontal){
-                    HStack {
+                    HStack(spacing: -100) {
                         ForEach(weatherCardArray, id: \.city) { weatherCard in
                             weatherCard
+                                .padding(.horizontal, 50)
                         }
                     }
                     .padding(30)
@@ -50,10 +54,16 @@ extension ContentView{
             Button(action: {
                 //
             }, label: {
-                Image(systemName: "list.bullet")
-                    .bold()
+                Circle()
+                    .frame(width: 40)
                     .foregroundColor(.white)
-                    .font(.title2)
+                    .shadow(radius: 10)
+                    .overlay(
+                        Image(systemName: "list.bullet")
+                            .bold()
+                            .foregroundColor(.black)
+                            .font(.title2)
+                    )
             })
             
             
@@ -63,15 +73,22 @@ extension ContentView{
                 .font(.title2)
             
             Button(action: {
-                isSearchViewShow.toggle()
+                isSearchViewShown.toggle()
             }, label: {
-                Image(systemName: "magnifyingglass")
-                    .bold()
+                Circle()
+                    .frame(width: 40)
                     .foregroundColor(.white)
-                    .font(.title2)
+                    .shadow(radius: 10)
+                    .overlay(
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.black)
+                            .font(.title2)
+                    )
             })
-            .sheet(isPresented: $isSearchViewShow, content: {
-                SearchView()
+            .sheet(isPresented: $isSearchViewShown, content: {
+                SearchView(citySelectionHandler: { selectedCity in
+                    weatherCardArray.append(WeatherCardView(city: selectedCity))
+                }, isSearchViewShown: $isSearchViewShown)
             })
         }
         .padding()

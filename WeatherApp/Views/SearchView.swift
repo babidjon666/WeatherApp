@@ -13,49 +13,66 @@ struct SearchView: View {
     
     var capitals = ["Moscow", "Washington", "Paris", "Tokyo", "Beijing", "London", "Canberra", "Berlin", "Rome", "Athens", "Madrid", "Lisbon", "Oslo", "Stockholm", "Copenhagen", "Helsinki", "Ottawa", "Kiev", "Warsaw", "Prague", "Budapest", "Vienna", "Brussels", "Amsterdam", "Bern", "Ankara", "Ankara", "Cairo", "Rabat", "Algiers", "Tunis", "Khartoum", "Dakar", "Abuja", "Kinshasa", "Harare", "Nairobi", "Tehran", "Baghdad", "Riyadh", "Doha", "Kuwait", "Manama", "Abu Dhabi", "Doha", "Jakarta", "Bangkok", "Singapore", "Seoul"]
     
+    var citySelectionHandler: ((String) -> Void)
+    
+    @Binding var isSearchViewShown: Bool
+    
     var body: some View {
         ZStack{
-           // Image("background")
-               // .resizable()
-               // .ignoresSafeArea()
-
+            Color.init(hex: "#7fc5f4").ignoresSafeArea()
+            
             VStack {
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .bold()
                         .padding(.leading, 10)
                     TextField("", text: $searchCity)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .bold()
                 }
                 .padding()
-                .background(Color.init(hex: "#4f05a8"))
+                .background(.white)
                 .cornerRadius(10)
+                .shadow(radius: 10)
                 .frame(width: 350, height: 50)
-                .shadow(color: Color.init(hex: "#7132bf"), radius: 10)
                 .padding()
                 
                 ScrollView(.vertical){
                     VStack{
                         ForEach(capitals, id: \.self) { city in
                             if searchCity.isEmpty || city.localizedCaseInsensitiveContains(searchCity) {
-                                Button(action: {
-                                    //
-                                }, label: {
+                                HStack{
                                     Text(city)
-                                        .frame(width: 300, height: 30)
-                                        .foregroundColor(.white)
+                                        .frame(width: 250, height: 30, alignment: .leading)
+                                        .foregroundColor(.black)
                                         .bold()
                                         .padding()
-                                        .background(Color.init(hex: "#4f05a8"))
-                                        .cornerRadius(10)
-                                        .shadow(color: Color.init(hex: "#7132bf"), radius: 8)
-                                        .padding(5)
-                                })
+                                    
+                                    Button(action: {
+                                        citySelectionHandler(city)
+                                        isSearchViewShown.toggle()
+                                    }, label: {
+                                        Circle()
+                                            .frame(width: 30)
+                                            .foregroundColor(.white)
+                                            .shadow(radius: 10)
+                                            .overlay(
+                                                Image(systemName: "plus")
+                                                    .foregroundColor(.black)
+                                                    .bold()
+                                            )
+                                            
+                                    })
+                                }
+                                .frame(width: 370)
+                                .background(.white)
+                                .cornerRadius(10)
+                                .padding(5)
                             }
                         }
                     }
+                    .shadow(radius: 10)
                     .frame(width: 500, height: .infinity)
                 }
                 Spacer()
@@ -67,5 +84,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
-}
+    SearchView(citySelectionHandler: { selectedCity in
+    }, isSearchViewShown: .constant(true))}
