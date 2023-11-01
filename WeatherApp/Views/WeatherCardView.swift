@@ -68,7 +68,7 @@ struct WeatherCardView: View {
         }
         .padding(20)
         .onAppear {
-            weatherModel = WeaterParse(city: city)
+            weatherModel = WeatherParse(city: city)
             region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: weatherModel?.lat ?? 0, longitude: weatherModel?.lon ?? 0), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
         }
     }

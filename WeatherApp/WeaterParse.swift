@@ -9,7 +9,7 @@ import Foundation
 
 import Foundation
 
-func WeaterParse(city: String) -> WeatherCardModel {
+func WeatherParse(city: String) -> WeatherCardModel {
     
     let firstPartApi = "https://api.openweathermap.org/data/2.5/weather?q="
     let secondPartApi = "&appid=c5ba8bde02ec7b8bc7901ead146c814e"

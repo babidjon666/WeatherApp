@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+        
+    @State var weatherCardArray = [ WeatherCardView(city: "Tyumen"),  WeatherCardView(city: "Moscow"), WeatherCardView(city: "Tokio")]
     
-    var weatherCardArray = [ WeatherCardView(city: "Tyumen"),  WeatherCardView(city: "Moscow"), WeatherCardView(city: "Tokio")]
+    @State var isSearchViewShow = false
     
     var body: some View {
         ZStack{
@@ -61,12 +63,15 @@ extension ContentView{
                 .font(.title2)
             
             Button(action: {
-                //
+                isSearchViewShow.toggle()
             }, label: {
                 Image(systemName: "magnifyingglass")
                     .bold()
                     .foregroundColor(.white)
                     .font(.title2)
+            })
+            .sheet(isPresented: $isSearchViewShow, content: {
+                SearchView()
             })
         }
         .padding()
